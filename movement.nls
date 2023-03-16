@@ -1,0 +1,10 @@
+;; movement functions go here
+
+to move
+  face attraction 0   
+  fd 0.01
+end
+
+to-report clear-distance-ahead
+  
+end

@@ -1,0 +1,15 @@
+to setup-1
+    ; this mimics the Itaewon system
+  ask patches with [ pycor < 9 and pycor > -9  ] [ set pcolor white ]
+  ask patches with [ (pxcor < 5 and pxcor > -5) and pycor < -8 ] [ set pcolor white ]
+  
+  ; setup turtle spawners at edges of corridor - this should eventually be customized 
+  ask patches with [ (pxcor = -50 or pxcor = 50) and (pycor > -9 and pycor < 9) ] [set pcolor blue ]
+  ask patches with [ (pxcor > -5 and pxcor < 5 and pycor = -50) ] [ set pcolor blue ]
+
+  setup-attraction
+end 
+
+to setup-attraction
+  create-attractions 1 [ set color yellow set size 4 ]
+end

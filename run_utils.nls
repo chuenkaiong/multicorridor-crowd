@@ -1,0 +1,6 @@
+to spawn-people
+    ;; this is run by blue patches to spawn people, simulating their entrance into the MCS 
+  if random-float 1 < inflow-rate and count people-here = 0 [
+    sprout-people 1 [ face attraction 0 ]
+  ]
+end
