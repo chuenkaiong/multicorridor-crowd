@@ -7,9 +7,23 @@ to setup-1
   ask patches with [ (pxcor = -50 or pxcor = 50) and (pycor > -9 and pycor < 9) ] [set pcolor blue ]
   ask patches with [ (pxcor > -5 and pxcor < 5 and pycor = -50) ] [ set pcolor blue ]
 
-  setup-attraction
+  ask patch 0 0 [ set is-attraction? true set pcolor blue + 3]  
+  
+  set-static-potentials
 end 
 
-to setup-attraction
-  create-attractions 1 [ set color yellow set size 4 ]
-end
+
+to set-static-potentials 
+  ask patches [
+    ; TODO - define potentials for the attraction squares themselves 
+    ifelse pcolor = white 
+    [
+      let closest-attraction one-of patches with [ is-attraction? = true ] with-min [distance myself]
+      set static max-pycor - (distance closest-attraction)
+      set pathable 1
+    ]
+    [
+      set pathable 0
+    ]
+  ]
+end 

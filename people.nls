@@ -1,0 +1,15 @@
+;; people functions go here
+
+to select-target-patch 
+  set target-patch max-one-of neighbors4 [ desirability ]
+end 
+
+to attempt-move
+  ifelse any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set moved-this-tick false]
+  ; if target patch is vacant, move there 
+  [ 
+    face target-patch
+    fd 1 
+    set moved-this-tick true
+  ]
+end

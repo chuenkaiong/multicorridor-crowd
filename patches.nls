@@ -1,0 +1,14 @@
+to spawn-people
+    ;; this is run by blue patches to spawn people, simulating their entrance into the MCS 
+  if random-float 1 < inflow-rate and count people-here = 0 [
+    sprout-people 1 
+  ]
+end
+
+to update-desirability 
+  ; run in patch context. evaluates desirability based on the formula 
+  let occupation-coefficient 1
+  if any? people-here [ set occupation-coefficient 0 ]
+  set desirability (e ^ ( follow-tendency * dynamic )) * (e ^ ( attraction-tendency * static )) * pathable * occupation-coefficient
+  
+end
