@@ -1,5 +1,21 @@
-
-
 to calculate-forces
-  
-end 
+  ask turtles [
+    let heading-vec heading-to-vector heading
+
+    ;;F = m*a, since this force is calculated every tick, this becomes F = m*v
+    let force heading-vec * speed
+    let target-patch patch-ahead 1
+    
+    ;; Add the force to the target patch
+    ask target-patch [
+      set net-force net-force + force
+    ]
+  ]
+end
+
+;;reporter to calculate vector from the heading of a turtle
+to-report heading-to-vector [h]
+  let x-component sin h
+  let y-component cos h
+  report (x-component, y-component)
+end
