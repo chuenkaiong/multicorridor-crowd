@@ -13,7 +13,7 @@ patches-own [
   is-attraction?
   static                                    ;; linear distance from attraction. Is set up in corridor-setup and does not change during the run
   dynamic                                   ;; dynamic field of a patch, is a list with length 4. Each list item represents the preference of past agents on this patch to move in a particular direction. This value diffuses and decays over time.
-  force                                     ;; force of the patch, applied via agents' pushing.
+  net-force                                     ;; force of the patch, applied via agents' pushing.
   pathable                                  ;; (0,1) whether the patch can accept agents
   desirability                              ;; desirability score of the patch, updated every tick
 ]
@@ -58,6 +58,7 @@ to go
 
   ; force field propagates TODO
   ; TODO - currently walls don't exert pushback force, but we might need to implement that because of the importance of walls to our sim
+
 
 
   ; agents attempt to move
