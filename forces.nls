@@ -1,20 +1,29 @@
 to calculate-forces
+
+
+  ;forces is a function of agent movement, so the force being exerted at a particular point is a function of agent movements towards/onto that point
+  ;but this force will be recorded by the patch that the agent moves towards, since force is exerted at a point every tick.
+  
+  ;query every turtle, and record the force that results from its motion onto the patch ahead
   ask turtles [
     let heading-vec heading-to-vector heading
 
     ;;F = m*a, since this force is calculated every tick, this becomes F = m*v
     let force heading-vec * 0.5
-    let next-patch patch-ahead 1
+
     
-    ;
+    ;target patch is the point in space where the force is exerted
+    ;this can either be the patch ahead if its open space, or current patch if theres a wall ahead
+    let target-patch patch-ahead 1
+
     if (next-patch = nobody)[
-      set next-patch patch-here
-    ]
-    
-    ;; Add the force to the target patch
-    ask next-patch [
-      set net-force net-force + force
-    ]
+        set next-patch patch-here
+      ]
+      
+      ;; Add the force to the target patch
+      ask next-patch [
+        set net-force net-force + force
+      ]
   ]
 end
 
@@ -25,3 +34,7 @@ to-report heading-to-vector [h]
   ;calculate the magnitude given 2 components
   report (sqrt((x-component ^ 2) + (y-component ^ 2)))
 end
+
+
+
+to exert
