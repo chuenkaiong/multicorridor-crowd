@@ -10,5 +10,8 @@ to update-desirability
   let occupation-coefficient 1
   if any? people-here [ set occupation-coefficient 0 ]
   set desirability (e ^ ( follow-tendency * dynamic )) * (e ^ ( attraction-tendency * static )) * pathable * occupation-coefficient
+end
+
+to update-dynamic-field
   
 end

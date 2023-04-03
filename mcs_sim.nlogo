@@ -62,19 +62,22 @@ to go
 
 
   ; agents attempt to move
-  ask people [ attempt-move ]
-
-  ; if agent succeeds in moving, increment dynamic field
+  ask people [ attempt-move ]     ; dynamic field is incremented in attempt-move function
 
   ; if agent doesn't succeed in moving, push occupant of desired cell
 
   ; push outwards to keep space
 
   ; diffuse and decay dynamic field
-
+  diffuse-dynamic-fields
 
   tick-advance 0.01
 ;  update-plots
+end
+
+to diffuse-dynamic-fields
+  ask patches [ set dynamic dynamic * ( 1 - dynamic-decay ) ]
+  diffuse dynamic 0.5
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -204,7 +207,7 @@ follow-tendency
 follow-tendency
 0
 3
-1.0
+0.4
 0.1
 1
 NIL
@@ -236,6 +239,21 @@ dynamic-decay
 1
 0.1
 0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+26
+377
+198
+410
+dynamic-increment
+dynamic-increment
+0.1
+2
+0.8
+0.1
 1
 NIL
 HORIZONTAL
