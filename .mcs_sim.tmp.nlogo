@@ -74,11 +74,6 @@ to go
   tick-advance 0.01
 ;  update-plots
 end
-
-to diffuse-dynamic-fields
-  ask patches [ set dynamic dynamic * ( 1 - dynamic-decay ) ]
-  diffuse dynamic 0.5
-end
 @#$#@#$#@
 GRAPHICS-WINDOW
 324
@@ -250,10 +245,10 @@ SLIDER
 410
 dynamic-increment
 dynamic-increment
-1
-20
-1.8
-1
+0.1
+2
+0.8
+0.1
 1
 NIL
 HORIZONTAL

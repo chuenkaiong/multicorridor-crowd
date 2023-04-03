@@ -14,7 +14,7 @@ to calculate-forces
     
     ;target patch is the point in space where the force is exerted
     ;this can either be the patch ahead if its open space, or current patch if theres a wall ahead
-    let target-patch patch-ahead 1
+    let next-patch patch-ahead 1
 
     if (next-patch = nobody)[
         set next-patch patch-here
@@ -38,3 +38,4 @@ end
 
 
 to exert
+end

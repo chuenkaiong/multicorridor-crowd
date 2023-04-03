@@ -74,11 +74,6 @@ to go
   tick-advance 0.01
 ;  update-plots
 end
-
-to diffuse-dynamic-fields
-  ask patches [ set dynamic dynamic * ( 1 - dynamic-decay ) ]
-  diffuse dynamic 0.5
-end
 @#$#@#$#@
 GRAPHICS-WINDOW
 324

@@ -13,5 +13,11 @@ to update-desirability
 end
 
 to update-dynamic-field
-  
+  set dynamic dynamic * (1 - dynamic-decay) 
+end
+
+
+to diffuse-dynamic-fields
+  ask patches [ set dynamic dynamic * ( 1 - dynamic-decay ) ]
+  diffuse dynamic 0.5
 end
