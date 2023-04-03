@@ -8,6 +8,7 @@ to attempt-move
   ifelse any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set moved-this-tick false]
   ; if target patch is vacant, move there 
   [ 
+    update-dynamic-field    ; instruction to the patch the agent is on 
     face target-patch
     fd 1 
     set moved-this-tick true
