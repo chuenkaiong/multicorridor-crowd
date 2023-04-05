@@ -1,17 +1,36 @@
 ;; people functions go here
 to select-target-patch 
-  set target-patch max-one-of neighbors4 [ desirability ]
+  ;; if agents are pushed harder than they are able to push, then they must select the patch in the direction of the force 
+  ifelse magnitude net-forces pforce > push-force 
+  [
+    ; round push vector to cardinal direction, then set the patch in that direction as target 
+    let push-heading cardinal-4 vector-direction net-forces pforce
+    set target-patch patch-at-heading-and-distance push-heading 1 
+;    show (word "agent " who " is being pushed in direction " push-heading)
+  ]
+  ;; else, select a target patch and move accordingly 
+  [
+    set target-patch max-one-of neighbors4 [ desirability ]
+  ]
+  
+  ;; failsafe
+  if target-patch = nobody [ set target-patch patch-here ]
+  
 end 
 
-to attempt-move
-  ifelse any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set moved-this-tick false]
-  ; if target patch is vacant, move there 
-  [ 
-    update-dynamic-field    ; instruction to the patch the agent is on 
-    face target-patch
-    fd 1 
-    set moved-this-tick true
-  ]
+to attempt-move  
+  (ifelse 
+    ; if target patch isn't vacant, don't move
+    any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set obstructed? true]
+  
+    ; if target patch is not agent's current patch, then move 
+    not (target-patch = patch-here)
+    [ 
+      update-dynamic-field    ; instruction to the patch the agent is on 
+      face target-patch
+      fd 1 
+    ]
+  )
 end
 
 to respond-to-pressure
@@ -35,3 +54,22 @@ to respond-to-pressure
 ; Crush Asphyxia 1112N - if sustained for 4-6 minutes
 
 ;implementation approach: keep a track of how many ticks have passed with the fore being sustained. If it exceeds the threshold, then kill the person. 
+to push       
+  ;; get direction of push 
+  let push-direction convert-heading-to-cardinal-index heading  
+  
+  ;; add force to current patch, in the direction of the push. Subtract force in the direction away from the push. 
+  set pforce replace-item push-direction pforce (item push-direction pforce + push-force)
+  
+  set push-direction ( push-direction + 2 ) mod 4
+  set pforce replace-item push-direction pforce (item push-direction pforce - push-force)
+end
+
+to push-to-maintain-space      ;; TODO one quarter of the pushing force (kresist = 0.25 kpush) is vector-added into each adjacent occupied cell in the direction of that cell
+  let maintain-push-force push-force / 4
+  if xcor > min-pxcor and xcor < max-pxcor and ycor > min-pycor and ycor < max-pycor [
+    foreach [ 0 1 2 3 ] [
+      x -> set pforce replace-item x pforce (item x pforce + maintain-push-force)
+    ]
+  ]
+end 

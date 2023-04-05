@@ -1,41 +1,38 @@
-to calculate-forces
-
-
-  ;forces is a function of agent movement, so the force being exerted at a particular point is a function of agent movements towards/onto that point
-  ;but this force will be recorded by the patch that the agent moves towards, since force is exerted at a point every tick.
-  
-  ;query every turtle, and record the force that results from its motion onto the patch ahead
-  ask turtles [
-    let heading-vec heading-to-vector heading
-
-    ;;F = m*a, since this force is calculated every tick, this becomes F = m*v
-    let force heading-vec * 0.5
-
-    
-    ;target patch is the point in space where the force is exerted
-    ;this can either be the patch ahead if its open space, or current patch if theres a wall ahead
-    let next-patch patch-ahead 1
-
-    if (next-patch = nobody)[
-        set next-patch patch-here
-      ]
-      
-      ;; Add the force to the target patch
-      ask next-patch [
-        set net-force net-force + force
-      ]
-  ]
+to-report vector-add [ v1 v2 ]  ;; where input vector is a 2-element list. Courtesy of https://stackoverflow.com/questions/24962986/using-vectors-in-netlogo
+  report (map + v1 v2)
 end
 
-;;reporter to calculate vector from the heading of a turtle
-to-report heading-to-vector [h]
-  let x-component sin h
-  let y-component cos h
-  ;calculate the magnitude given 2 components
-  report (sqrt((x-component ^ 2) + (y-component ^ 2)))
+to-report scalar-product [ v scalar ]
+  report ( map [x -> x * scalar] v )
 end
 
+to-report magnitude [ v ]       ;; where input vector is a 2-element list
+  report sqrt ( (item 0 v) ^ 2 + (item 1 v) ^ 2 )
+end
 
+to-report net-forces [ v4 ]     ;; converts the 4d total force vector ([NESW]) into a 2d net force vector ([xcomponent ycomponent])
+  report (list ( item 1 v4 - item 3 v4 ) ( item 0 v4 - item 2 v4 ))
+end
 
-to exert
+to-report vector-direction [ v ]
+  report atan item 0 v item 1 v 
+end
+
+to-report cardinal-4 [ heading-input ]    ;; rounds heading into NESW headings, courtesy of https://stackoverflow.com/questions/46271318/netlogo-how-to-round-heading-into-90-180-270-360-only
+  let dir heading-input
+  let remain dir mod 90
+  if remain != 0 [
+    ifelse remain <= 45 [
+      set dir dir - remain
+    ]
+    [
+      set dir dir - remain + 90
+    ]
+  ]  
+  report dir
+end
+
+to-report convert-heading-to-cardinal-index  [ heading-input ]
+  let cardinal cardinal-4 heading-input
+  report (floor (cardinal / 90)) mod 4
 end
