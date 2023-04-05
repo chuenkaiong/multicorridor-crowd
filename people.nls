@@ -16,12 +16,18 @@ end
 
 to respond-to-pressure
   ;check if the agent has exceeded fatal pressure
-  if (pressure-endured > pressure-threshold)[
+  let x ticks
+
+  ;simplified pressue over time model
+  let current-threshold ((-13 * x) + 6200 )
+
+  let death-threshold ( x * current-threshold )
+
+  if (pressure-endured >= death-threshold)[
     set color grey
     set breed deadpeople 
   ]
 ;end
-
 ;every tick corrsponds to 1 second
 
 ; Crush Asphyxia 6227N for 15 seconds

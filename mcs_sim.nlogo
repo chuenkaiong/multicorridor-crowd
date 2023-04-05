@@ -3,8 +3,7 @@ __includes [ "people.nls" "corridor_setup.nls" "patches.nls" "forces.nls"]  ; im
 globals [
   max-push-force                            ;; the max pushing force each person is able to generate
   done?                                     ;; becomes true when [SOME CONDITION]
-  short-term-force-threshold                ;; maximum force an agent can bear before suffering from short term asphyxia -> 6227N for 15 seconds
-  long-term-force-threshold                 ;; maximum force an agent can bear before suffering from long term asphyxia -> 1112N for 4-6 minutes
+  
 
 ]
 
@@ -24,9 +23,6 @@ people-own [
   target-patch                              ;; patch that the agent wants to go next
   moved-this-tick                           ;; set to true if agent has moved this tick
   pressure-endured                          ;; increases per tick depending on sum of forces exerted on the person's patch. Decays when force exerted is below the danger threshold. Agent sustains various injuries when the force reaches injury thresholds.
-  low-pressure-endurance                    ;; amount of time the agent has consistently endured the low pressure threshold for
-  high-pressure-endurance                   ;;amount of time the agent has consistently endured the high pressure threshold for
-
 ]
 
 to setup
