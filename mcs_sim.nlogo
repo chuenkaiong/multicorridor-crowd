@@ -3,8 +3,7 @@ __includes [ "people.nls" "corridor_setup.nls" "patches.nls" "forces.nls"]  ; im
 globals [
   max-push-force                            ;; the max pushing force each person is able to generate
   done?                                     ;; becomes true when [SOME CONDITION]
-  short-term-force-threshold                ;; maximum force an agent can bear before suffering from short term asphyxia -> 6227N for 15 seconds
-  long-term-force-threshold                 ;; maximum force an agent can bear before suffering from long term asphyxia -> 1112N for 4-6 minutes
+  
 
 ]
 
