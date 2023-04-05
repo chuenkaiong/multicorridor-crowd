@@ -37,8 +37,7 @@ to setup
 end
 
 to setup-corridors
-  if corridor-system = 1 [setup-1]
-  ask patches [ set pforce [ 0 0 0 0 ] ]
+  setup-1
 end
 
 
@@ -175,7 +174,7 @@ CHOOSER
 118
 corridor-system
 corridor-system
-1 2 3
+3 5 7
 0
 
 SLIDER
@@ -277,11 +276,63 @@ push-force
 push-force
 0
 1000
-50.0
+62.0
 1
 1
 NIL
 HORIZONTAL
+
+SWITCH
+29
+468
+145
+501
+obstacles
+obstacles
+0
+1
+-1000
+
+SLIDER
+27
+513
+199
+546
+avenue-width
+avenue-width
+2
+40
+40.0
+2
+1
+NIL
+HORIZONTAL
+
+SLIDER
+27
+556
+199
+589
+corridor-width
+corridor-width
+2
+18
+14.0
+2
+1
+NIL
+HORIZONTAL
+
+SWITCH
+159
+469
+294
+502
+train-station
+train-station
+0
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?

@@ -1,22 +1,101 @@
 to setup-1
-    ; this mimics the Itaewon system
-  ask patches with [ pycor < 9 and pycor > -9  ] [ set pcolor white ]
-  ask patches with [ (pxcor < 5 and pxcor > -5) and pycor < -8 ] [ set pcolor white ]
-  
-  ; setup turtle spawners at edges of corridor - this should eventually be customized 
-  ask patches with [ (pxcor = -50 or pxcor = 50) and (pycor > -9 and pycor < 9) ] [set pcolor blue ]
-  ask patches with [ (pxcor > -5 and pxcor < 5 and pycor = -50) ] [ set pcolor blue ]
 
-  ask patch 0 0 [ set is-attraction? true set pcolor blue + 3]  
-  
+  ;path
+  ask patches with [abs pycor <= avenue-width / 2] [set pcolor white]
+  ;spawn points
+  ask patches with [abs pycor <= avenue-width / 2 and abs pxcor = max-pxcor] [set pcolor blue]
+
+
+  (ifelse
+    corridor-system = 3 [
+      setup-corridor 3 true
+      setup-corridor -20 false
+      setup-corridor 25 false
+    ]
+    corridor-system = 5 [
+      setup-corridor 15 true
+      setup-corridor -27 true
+      setup-corridor 31 false
+      setup-corridor 6 false
+      setup-corridor -36 false
+    ]
+    ; corridor-system = 7
+    [
+      setup-corridor -34 true
+      setup-corridor -11 true
+      setup-corridor 30 true
+      setup-corridor -38 false
+      setup-corridor -5 false
+      setup-corridor 17 false
+      setup-corridor 40 false
+  ])
+
+  if obstacles [create-obstacles]
+  if train-station [create-trainstation]
+
+  ask patch 0 0 [ set is-attraction? true set pcolor blue + 3]
+
   set-static-potentials
-end 
+
+end
 
 
-to set-static-potentials 
+to setup-corridor [corr-point top]
+
+  set corr-point 0 - corr-point
+  let edge 0
+  ifelse (top) [set edge max-pycor][set edge min-pycor] ;used for spawn points
+
+  ;path
+  ifelse (top) [
+    ask patches with [abs (pxcor + corr-point) <= corridor-width / 2 and pycor > 0 ] [set pcolor white]]
+  [ask patches with [abs (pxcor + corr-point) <= corridor-width / 2 and pycor < 0 ] [set pcolor white]]
+
+  ;spawn points
+   ask patches with [abs (pxcor + corr-point) <= corridor-width / 2 and pycor = edge ] [set pcolor blue]
+
+end
+
+to create-obstacles
+
+  let edge-distance 4 ;distance from avenue border
+  let obstacle-size 2 ; size of obstacle
+  let prob-obstacle 0.5 ; probability of patch being an obstacle
+
+
+  ask patches with [abs pycor = (avenue-width / 2) - edge-distance and pcolor = white] [
+    let px pxcor
+    let py pycor
+
+    ;top line
+    ifelse (pycor > 0) [
+      if [pcolor] of patch pxcor (pycor + edge-distance + 1) = black and random-float 1 < prob-obstacle [
+        ask patches with [pxcor = px and pycor <= py and pycor > py - obstacle-size  ] [ ;;avoid blocking corridors
+          set pcolor black
+        ]
+      ]
+    ]
+    ;bottom line
+    [
+      if [pcolor] of patch pxcor (pycor - edge-distance - 1) = black and random-float 1 < prob-obstacle [
+        ask patches with [pxcor = px and pycor >= py and pycor < py + obstacle-size  ] [
+          set pcolor black
+        ]
+      ]
+    ]
+  ]
+end
+
+to create-trainstation
+  let station-width 2
+  let station-point 25
+  ask patches with [abs pycor <= station-width and abs pxcor = station-point] [set pcolor blue]
+end
+
+to set-static-potentials
   ask patches [
-    ; TODO - define potentials for the attraction squares themselves 
-    ifelse pcolor = white 
+    ; TODO - define potentials for the attraction squares themselves
+    ifelse pcolor = white
     [
       let closest-attraction one-of patches with [ is-attraction? = true ] with-min [distance myself]
       set static max-pycor - (distance closest-attraction)
@@ -26,4 +105,4 @@ to set-static-potentials
       set pathable 0
     ]
   ]
-end 
+end
