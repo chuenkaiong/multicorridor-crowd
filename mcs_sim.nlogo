@@ -68,6 +68,8 @@ to go
   ; after propagation is done, patches update the actual force field
   ask patches [ set pforce pforce-incoming ]
 
+  ; agents respond to pressure here.
+
   ; agents attempt to move
   ask people [ attempt-move ]     ; dynamic field is incremented in attempt-move function
 
@@ -81,12 +83,10 @@ to go
     push-to-maintain-space
   ]
 
-  ask people [respond-to-pressure]
-
   ; diffuse and decay dynamic field
   diffuse-dynamic-fields
 
-  tick-advance 0.01
+  tick
 ;  update-plots
 end
 @#$#@#$#@
@@ -186,8 +186,8 @@ SLIDER
 people-cap
 people-cap
 0
-1000
-790.0
+3000
+2140.0
 1
 1
 NIL
@@ -217,7 +217,7 @@ follow-tendency
 follow-tendency
 0
 3
-0.4
+0.2
 0.1
 1
 NIL
@@ -232,7 +232,7 @@ attraction-tendency
 attraction-tendency
 0
 3
-0.2
+0.7
 0.1
 1
 NIL

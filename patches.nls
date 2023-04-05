@@ -4,6 +4,7 @@ to spawn-people
     sprout-people 1 [ 
       set pressure-endured 0 
       face one-of patches with [is-attraction? = true]
+      set color green     ;; TODO render people closer to red depending on their pressure endured 
     ]
   ]
 end
