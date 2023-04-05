@@ -24,6 +24,9 @@ people-own [
   target-patch                              ;; patch that the agent wants to go next
   moved-this-tick                           ;; set to true if agent has moved this tick
   pressure-endured                          ;; increases per tick depending on sum of forces exerted on the person's patch. Decays when force exerted is below the danger threshold. Agent sustains various injuries when the force reaches injury thresholds.
+  low-pressure-endurance                    ;; amount of time the agent has consistently endured the low pressure threshold for
+  high-pressure-endurance                   ;;amount of time the agent has consistently endured the high pressure threshold for
+
 ]
 
 to setup

@@ -14,12 +14,12 @@ to attempt-move
   ]
 end
 
-;to respond-to-pressure
+to respond-to-pressure
   ;check if the agent has exceeded fatal pressure
-;  if (pressure-endured > pressure-threshold)[
-;    set color grey
-;    set breed deadpeople 
-;  ]
+  if (pressure-endured > pressure-threshold)[
+    set color grey
+    set breed deadpeople 
+  ]
 ;end
 
 ;every tick corrsponds to 1 second
@@ -27,3 +27,5 @@ end
 ; Crush Asphyxia 6227N for 15 seconds
 
 ; Crush Asphyxia 1112N - if sustained for 4-6 minutes
+
+;implementation approach: keep a track of how many ticks have passed with the fore being sustained. If it exceeds the threshold, then kill the person. 
