@@ -31,6 +31,7 @@ to setup
   set done? false
 
   setup-corridors
+
   reset-ticks
 end
 
@@ -69,7 +70,10 @@ to go
     if obstructed? [push]
   ]
 
-  ; push outwards to keep space
+  ; push outwards to keep space ;; TODO
+  ask people [
+    push-to-maintain-space
+  ]
 
   ; diffuse and decay dynamic field
   diffuse-dynamic-fields
