@@ -2,15 +2,31 @@
 
 to select-target-patch 
   set target-patch max-one-of neighbors4 [ desirability ]
+  if desirability > [ desirability ] of target-patch [ set target-patch patch-here ]
+  ;; TODO - if agents are pushed harder than they are able to push, then they must select the patch in the direction of the force 
 end 
 
-to attempt-move
-  ifelse any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set moved-this-tick false]
-  ; if target patch is vacant, move there 
-  [ 
-    update-dynamic-field    ; instruction to the patch the agent is on 
-    face target-patch
-    fd 1 
-    set moved-this-tick true
+to attempt-move  
+  (ifelse 
+    ; if target patch isn't vacant, don't move. Note - don't set obstructed to true if the agent is simply choosing to remain in place, since in such cases the agent will not push
+    any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set obstructed? true]
+  
+    ; if target patch is not agent's current patch, then move 
+    not (target-patch = patch-here)
+    [ 
+      update-dynamic-field    ; instruction to the patch the agent is on 
+      face target-patch
+      fd 1 
+    ]
+  )
+end
+
+to push       ;; vector add its pushing force to the force field value on the desired cell in the direction of desired travel 
+  ; generate push force vector depending on direction agent is facing
+  let push-vector scalar-product (list dx dy) push-force 
+  
+  ; vector add pushing force to patch ahead 
+  ask patch-ahead 1 [
+    set pforce vector-add push-vector pforce
   ]
 end

@@ -3,7 +3,6 @@ __includes [ "people.nls" "corridor_setup.nls" "patches.nls" "forces.nls"]  ; im
 globals [
   max-push-force                            ;; the max pushing force each person is able to generate
   done?                                     ;; becomes true when [SOME CONDITION]
-
 ]
 
 breed [people person]                       ;; live people. Set color between green and red to indicate forces experienced
@@ -13,14 +12,14 @@ patches-own [
   is-attraction?
   static                                    ;; linear distance from attraction. Is set up in corridor-setup and does not change during the run
   dynamic                                   ;; dynamic field of a patch, is a list with length 4. Each list item represents the preference of past agents on this patch to move in a particular direction. This value diffuses and decays over time.
-  net-force                                     ;; force of the patch, applied via agents' pushing.
+  pforce
   pathable                                  ;; (0,1) whether the patch can accept agents
   desirability                              ;; desirability score of the patch, updated every tick
 ]
 
 people-own [
   target-patch                              ;; patch that the agent wants to go next
-  moved-this-tick                           ;; set to true if agent has moved this tick
+  obstructed?                               ;; set to true if agent (i) has attempted to move to an adjacent cell, and (ii) was unable to do so because the cell was already occupied
   pressure-endured                          ;; increases per tick depending on sum of forces exerted on the person's patch. Decays when force exerted is below the danger threshold. Agent sustains various injuries when the force reaches injury thresholds.
 ]
 
@@ -32,23 +31,24 @@ to setup
   set done? false
 
   setup-corridors
-
   reset-ticks
 end
 
 to setup-corridors
   if corridor-system = 1 [setup-1]
+  ask patches [ set pforce [ 0 0 ] ]
 end
 
 
 to go
-  ; reset variables
-  ask people [ set moved-this-tick false]
 
   ; spawn crowds at corridor entrances if the pop cap isn't reached
   if count people < people-cap [
     ask patches with [ pcolor = blue ] [ spawn-people ]
   ]
+
+  ; reset variables
+  ask people [ set obstructed? false ]
 
   ; calculate cell scores
   ask patches [ update-desirability ]
@@ -65,6 +65,9 @@ to go
   ask people [ attempt-move ]     ; dynamic field is incremented in attempt-move function
 
   ; if agent doesn't succeed in moving, push occupant of desired cell
+  ask people [
+    if obstructed? [push]
+  ]
 
   ; push outwards to keep space
 
@@ -249,6 +252,21 @@ dynamic-increment
 2
 0.8
 0.1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+26
+425
+198
+458
+push-force
+push-force
+0
+1000
+50.0
+1
 1
 NIL
 HORIZONTAL
