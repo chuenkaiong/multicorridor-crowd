@@ -11,7 +11,6 @@ to select-target-patch
   ;; else, select a target patch and move accordingly 
   [
     set target-patch max-one-of neighbors4 [ desirability ]
-    if desirability > [ desirability ] of target-patch [ set target-patch patch-here ]
   ]
   
   ;; failsafe
@@ -21,7 +20,7 @@ end
 
 to attempt-move  
   (ifelse 
-    ; if target patch isn't vacant, don't move. Note - don't set obstructed to true if the agent is simply choosing to remain in place, since in such cases the agent will not push
+    ; if target patch isn't vacant, don't move
     any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set obstructed? true]
   
     ; if target patch is not agent's current patch, then move 
