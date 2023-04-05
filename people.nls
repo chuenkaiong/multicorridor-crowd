@@ -18,8 +18,8 @@ to respond-to-pressure
   ;check if the agent has exceeded fatal pressure
   let x ticks
 
-  ;simplified pressue over time model
-  let current-threshold ((-13 * x) + 6200 )
+  ;nonlinear pressure over time model
+  let current-threshold (375.0025 + (1384581000 - 575.0025) / (1 + (x / 0.000001875485 ) ^ 0.7806964))
 
   let death-threshold ( x * current-threshold )
 
