@@ -10,6 +10,10 @@ to-report magnitude [ v ]       ;; where input vector is a 2-element list
   report sqrt ( (item 0 v) ^ 2 + (item 1 v) ^ 2 )
 end
 
+to-report net-forces [ v4 ]     ;; converts the 4d total force vector ([NESW]) into a 2d net force vector ([xcomponent ycomponent])
+  report (list ( item 1 v4 - item 3 v4 ) ( item 0 v4 - item 2 v4 ))
+end
+
 to-report vector-direction [ v ]
   report atan item 0 v item 1 v 
 end
@@ -26,4 +30,9 @@ to-report cardinal-4 [ heading-input ]    ;; rounds heading into NESW headings, 
     ]
   ]  
   report dir
+end
+
+to-report convert-heading-to-cardinal-index  [ heading-input ]
+  let cardinal cardinal-4 heading-input
+  report (floor (cardinal / 90)) mod 4
 end

@@ -17,16 +17,19 @@ end
   
 to propagate-forces
   ;; The basic force rule is that as a part of each time step, the entire force on a particular cell moves on to the next cell (in the direction of the force vector)
-  ;; Forces that collide on a cell are vector added together. Force cannot be propagated through empty space 
+  ;; Forces that collide on a cell are NOT vector added together. Force cannot be propagated through empty space 
   ;; if force becomes stranded on an empty space its magnitude is reduced to zero. Walls and obstacles absorb force, and do not re-transmit it.
-  if any? people-here and not (pforce = [ 0 0 ]) [
-    let propagation-target-patch patch-at-heading-and-distance vector-direction pforce 0.8 ; 0.8 is to account for diagonals. Can explore only propagating forces in cardinal directions with the cardinal-4 function too. 
-    if not (propagation-target-patch = nobody) [
-      ask propagation-target-patch [ set pforce-incoming vector-add pforce-incoming [ pforce ] of myself ]
+  if any? people-here and not (pforce = [ 0 0 0 0 ]) [
+    foreach [0 1 2 3] [
+      x -> propagate-towards-direction x
     ]
   ]
-  
-  
+end
+
+to propagate-towards-direction [x]
+  if is-patch? patch-at-heading-and-distance (x * 90) 1 [
+    ask patch-at-heading-and-distance (x * 90) 1 [ set pforce-incoming replace-item x pforce-incoming ([ item x pforce ] of myself) ]
+  ]
 end
 
 to update-dynamic-field

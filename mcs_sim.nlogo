@@ -12,7 +12,7 @@ patches-own [
   is-attraction?
   static                                    ;; linear distance from attraction. Is set up in corridor-setup and does not change during the run
   dynamic                                   ;; dynamic field of a patch, is a list with length 4. Each list item represents the preference of past agents on this patch to move in a particular direction. This value diffuses and decays over time.
-  pforce                                    ;; force fields for a given patch, given by a 2 element list [xcomponent ycomponent].
+  pforce                                    ;; force fields for a given patch, given by a 4 element list (forces TOWARDS [N E S W]).
   pforce-incoming                           ;; used to calculate force propagation each tick
   pathable                                  ;; (0,1) whether the patch can accept agents
   desirability                              ;; desirability score of the patch, updated every tick
@@ -38,7 +38,7 @@ end
 
 to setup-corridors
   if corridor-system = 1 [setup-1]
-  ask patches [ set pforce [ 0 0 ] ]
+  ask patches [ set pforce [ 0 0 0 0 ] ]
 end
 
 
@@ -61,7 +61,7 @@ to go
   ; force field propagates, tracked by the pforce-incoming patch variable. An additional variable is needed because patches should not propagate a value that they have just recieved this tick.
   ; TODO - currently walls don't exert pushback force, but we might need to implement that because of the importance of walls to our sim
   ask patches [
-    set pforce-incoming [ 0 0 ]
+    set pforce-incoming [ 0 0 0 0 ]
     propagate-forces
   ]
 
@@ -185,7 +185,7 @@ people-cap
 people-cap
 0
 1000
-701.0
+790.0
 1
 1
 NIL

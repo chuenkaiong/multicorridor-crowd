@@ -2,11 +2,12 @@
 
 to select-target-patch 
   ;; if agents are pushed harder than they are able to push, then they must select the patch in the direction of the force 
-  ifelse magnitude pforce > push-force 
+  ifelse magnitude net-forces pforce > push-force 
   [
     ; round push vector to cardinal direction, then set the patch in that direction as target 
-    let push-heading cardinal-4 vector-direction pforce
-    set target-patch patch-at-heading-and-distance push-heading 1   
+    let push-heading cardinal-4 vector-direction net-forces pforce
+    set target-patch patch-at-heading-and-distance push-heading 1 
+;    show (word "agent " who " is being pushed in direction " push-heading)
   ]
   ;; else, select a target patch and move accordingly 
   [
@@ -33,24 +34,22 @@ to attempt-move
   )
 end
 
-to push       ;; vector add its pushing force to the force field value on the desired cell in the direction of desired travel 
-  ; generate push force vector depending on direction agent is facing
-  let push-vector scalar-product (list dx dy) push-force 
+to push       
+  ;; get direction of push 
+  let push-direction convert-heading-to-cardinal-index heading  
   
-  ; vector add pushing force to patch ahead 
-  if is-patch? patch-ahead 1 [ 
-    ask patch-ahead 1 [
-      set pforce vector-add push-vector pforce
-    ]
-  ]
+  ;; add force to current patch, in the direction of the push. Subtract force in the direction away from the push. 
+  set pforce replace-item push-direction pforce (item push-direction pforce + push-force)
+  
+  set push-direction ( push-direction + 2 ) mod 4
+  set pforce replace-item push-direction pforce (item push-direction pforce - push-force)
 end
 
 to push-to-maintain-space      ;; TODO one quarter of the pushing force (kresist = 0.25 kpush) is vector-added into each adjacent occupied cell in the direction of that cell
   let maintain-push-force push-force / 4
   if xcor > min-pxcor and xcor < max-pxcor and ycor > min-pycor and ycor < max-pycor [
-    ask patch-at-heading-and-distance 0 1 [ set pforce vector-add pforce list 0 maintain-push-force ]
-    ask patch-at-heading-and-distance 90 1 [ set pforce vector-add pforce list maintain-push-force 0 ]
-    ask patch-at-heading-and-distance 180 1 [ set pforce vector-add pforce list 0  (0 - maintain-push-force) ]
-    ask patch-at-heading-and-distance 270 1 [ set pforce vector-add pforce list (0 - maintain-push-force) 0 ]
+    foreach [ 0 1 2 3 ] [
+      x -> set pforce replace-item x pforce (item x pforce + maintain-push-force)
+    ]
   ]
 end 
