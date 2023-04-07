@@ -21,8 +21,11 @@ end
 to attempt-move  
   face target-patch    ; we face target patch first because this affects both our movement and pushing behavior 
   (ifelse 
-    ; if target patch isn't vacant, don't move
-    any? [ people-here ] of target-patch or [pcolor] of target-patch = black [set obstructed? true]
+    ; if target patch isn't vacant, try the patch to the left or right of itself instead (try to go around the person) 
+    any? [ people-here ] of target-patch or [pcolor] of target-patch = black [
+;      ifelse random-float 1 < 0.2 [attempt-circumvent] [set obstructed? true]
+      set obstructed? true
+    ]
   
     ; if target patch is not agent's current patch, then move 
     not (target-patch = patch-here)
@@ -31,6 +34,29 @@ to attempt-move
       fd 1 
     ]
   )
+end
+
+to attempt-circumvent
+  ; randomly turn left or right for first consideration (random is to avoid biasing agents towards either direction 
+  ifelse random-float 1 < 0.5 [lt 90] [rt 90]
+  
+  if any? [people-here] of patch-ahead 1 or any? [deadpeople-here] of patch-ahead 1 [
+    ; if the patch to the right is occupied, try the patch to the left 
+    rt 180 
+  ]
+  
+  ; after rotating (or not), check the patch again. If there's no one in there, move. 
+  ifelse any? [people-here] of patch-ahead 1 or any? [deadpeople-here] of patch-ahead 1 
+  [
+    update-dynamic-field
+    fd 1
+  ]
+  ; if still obstructed, fail the move. Reorient to target patch and prepare to shove the guy in front 
+  [
+    set obstructed? true 
+    face target-patch
+  ]
+
 end
 
 to respond-to-pressure

@@ -29,7 +29,7 @@ end
 
 to propagate-towards-direction [x]
   if is-patch? patch-at-heading-and-distance (x * 90) 1 [
-    ask patch-at-heading-and-distance (x * 90) 1 [ set pforce-incoming replace-item x pforce-incoming ([ item x pforce ] of myself) ]
+    ask patch-at-heading-and-distance (x * 90) 1 [ set pforce-incoming replace-item x pforce-incoming ([ item x pforce ] of myself + item x pforce-incoming) ]
   ]
 end
 

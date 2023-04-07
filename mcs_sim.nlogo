@@ -21,7 +21,7 @@ patches-own [
 people-own [
   target-patch                              ;; patch that the agent wants to go next
   obstructed?                               ;; set to true if agent (i) has attempted to move to an adjacent cell, and (ii) was unable to do so because the cell was already occupied
-  pressure-endured                          ;; increases per tick depending on sum of forces exerted on the person's patch. Decays when force exerted is below the danger threshold. Agent sustains various injuries when the force reaches injury thresholds.
+  pressure-endured                          ;;
 ]
 
 to setup
@@ -38,6 +38,9 @@ end
 
 to setup-corridors
   setup-1
+  ask patches [
+    set pforce [0 0 0 0]
+  ]
 end
 
 
@@ -186,7 +189,7 @@ people-cap
 people-cap
 0
 3000
-2140.0
+2828.0
 1
 1
 NIL
@@ -289,7 +292,7 @@ SWITCH
 501
 obstacles
 obstacles
-0
+1
 1
 -1000
 
@@ -302,7 +305,7 @@ avenue-width
 avenue-width
 2
 40
-40.0
+10.0
 2
 1
 NIL
@@ -317,7 +320,7 @@ corridor-width
 corridor-width
 2
 18
-14.0
+6.0
 2
 1
 NIL
