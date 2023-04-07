@@ -24,6 +24,10 @@ people-own [
   pressure-endured                          ;;
 ]
 
+deadpeople-own [
+  target-patch
+]
+
 to setup
   ca
   set-default-shape people "circle"
@@ -333,7 +337,7 @@ SWITCH
 502
 train-station
 train-station
-0
+1
 1
 -1000
 

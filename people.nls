@@ -15,15 +15,26 @@ to select-target-patch
   
   ;; failsafe
   if target-patch = nobody [ set target-patch patch-here ]
-  
 end 
+
+to deadpeople-attempt-move
+  ; round push vector to cardinal direction, then set the patch in that direction as target 
+  let push-heading cardinal-4 vector-direction net-forces pforce
+  set target-patch patch-at-heading-and-distance push-heading 1 
+  face target-patch
+  
+  ; if the patch is unoccupied and pathable, move into it (but don't push, and don't update dynamic field) 
+  if (not any? [ people-here ] of target-patch and not any? [deadpeople-here] of target-patch ) or [ pathable ] of target-patch = 1 [
+    fd 1 
+  ] 
+end
 
 to attempt-move  
   face target-patch    ; we face target patch first because this affects both our movement and pushing behavior 
   (ifelse 
-    ; if target patch isn't vacant, try the patch to the left or right of itself instead (try to go around the person) 
-    any? [ people-here ] of target-patch or [pcolor] of target-patch = black [
-;      ifelse random-float 1 < 0.2 [attempt-circumvent] [set obstructed? true]
+    ; OLD CODE DON'T USE - if target patch isn't vacant, try the patch to the left or right of itself instead (try to go around the person) 
+    any? [ turtles-here ] of target-patch or [pcolor] of target-patch = black [
+;     OLD CODE DON'T USE - ifelse random-float 1 < 0.2 [attempt-circumvent] [set obstructed? true]
       set obstructed? true
     ]
   
