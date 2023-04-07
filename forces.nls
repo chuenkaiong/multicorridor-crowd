@@ -11,7 +11,7 @@ to-report magnitude [ v ]       ;; where input vector is a 2-element list
 end
 
 to-report net-forces [ v4 ]     ;; converts the 4d total force vector ([NESW]) into a 2d net force vector ([xcomponent ycomponent])
-  report (list ( item 1 v4 - item 3 v4 ) ( item 0 v4 - item 2 v4 ))
+  report (list (  item 1 v4 - item 3 v4 ) ( item 0 v4 - item 2 v4 ))
 end
 
 to-report vector-direction [ v ]
