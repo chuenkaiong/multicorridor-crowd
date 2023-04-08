@@ -75,8 +75,11 @@ to respond-to-pressure
   ;check if the agent has exceeded fatal pressure
   let x ticks
 
+  ;arbitrarily slow down pressure response. added this if-condition to only kill people at every 13th tick, alternatively, we can slow down the model which may affect smoothness
+  if (x % 13 = 0)[
+
   ;nonlinear pressure over time model
-  let current-threshold (0025 + (1384581000 - 575.0025) / (1 + (x / 0.000001875485 ) ^ 0.7806964))
+  let current-threshold (13250 + (1384581000 - 575.0025) / (1 + (x / 0.0000001875485 ) ^ 0.7806964))
   
   let death-threshold ( x * current-threshold )
 
@@ -87,6 +90,7 @@ to respond-to-pressure
     set color grey
     set breed deadpeople 
   ]
+  ]
 end
 
 ;;update pressure method to add to endured pressure every tick
@@ -96,11 +100,11 @@ to update-pressure
   let current-total-force sum [pforce] of patch-here / 4
   ;;show current-total-force
 
-;  ifelse current-total-force >= min-pressure 
-;  [ set pressure-endured 0]
+  ifelse current-total-force < min-pressure 
+  [ set pressure-endured 0 ]
 ;  
-;  [set pressure-endured pressure-endured + current-total-force]
-  set pressure-endured pressure-endured + current-total-force
+  [ set pressure-endured pressure-endured + current-total-force ]
+;  set pressure-endured pressure-endured + current-total-force
   
 end
 
