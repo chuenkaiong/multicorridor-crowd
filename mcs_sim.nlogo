@@ -25,6 +25,10 @@ people-own [
   min-pressure                              ;; minimum threshold for pressure. any pressure below this will not harm an individual for any period
 ]
 
+deadpeople-own [
+  target-patch
+]
+
 to setup
   ca
   set-default-shape people "circle"
@@ -337,7 +341,7 @@ SWITCH
 502
 train-station
 train-station
-0
+1
 1
 -1000
 

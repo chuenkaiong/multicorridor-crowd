@@ -20,7 +20,7 @@ to propagate-forces
   ;; The basic force rule is that as a part of each time step, the entire force on a particular cell moves on to the next cell (in the direction of the force vector)
   ;; Forces that collide on a cell are NOT vector added together. Force cannot be propagated through empty space 
   ;; if force becomes stranded on an empty space its magnitude is reduced to zero. Walls and obstacles absorb force, and do not re-transmit it.
-  if any? people-here and not (pforce = [ 0 0 0 0 ]) [
+  if any? people-here or any? deadpeople-here and not (pforce = [ 0 0 0 0 ]) [
     foreach [0 1 2 3] [
       x -> propagate-towards-direction x
     ]
