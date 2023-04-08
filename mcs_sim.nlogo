@@ -227,7 +227,7 @@ follow-tendency
 follow-tendency
 0
 3
-0.2
+0.1
 0.1
 1
 NIL
@@ -257,7 +257,7 @@ dynamic-decay
 dynamic-decay
 0
 1
-0.1
+0.11
 0.01
 1
 NIL
@@ -344,6 +344,21 @@ train-station
 1
 1
 -1000
+
+SLIDER
+27
+609
+199
+642
+crowd-density
+crowd-density
+1
+10
+8.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
