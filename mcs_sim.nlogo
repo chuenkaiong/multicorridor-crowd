@@ -75,7 +75,6 @@ to go
   ask patches [ set pforce pforce-incoming ]
 
   ; agents respond to pressure here.
-  ask people [ respond-to-pressure ]
 
   ; agents attempt to move
   ask people [ attempt-move ]     ; dynamic field is incremented in attempt-move function
@@ -193,8 +192,8 @@ SLIDER
 people-cap
 people-cap
 0
-10000
-8726.0
+3000
+2828.0
 1
 1
 NIL
@@ -209,7 +208,7 @@ inflow-rate
 inflow-rate
 0
 0.3
-0.066
+0.03
 0.003
 1
 NIL
