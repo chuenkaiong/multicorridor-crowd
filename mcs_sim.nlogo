@@ -287,8 +287,8 @@ push-force
 push-force
 0
 1000
-62.0
-609
+609.0
+1
 1
 NIL
 HORIZONTAL
