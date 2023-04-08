@@ -93,7 +93,7 @@ end
 ;; if the pressure on the person continues to be above a certain threshold, the person's cumulative pressure (endured-pressure) will increase by the sum of all 4 directional forces.
 to update-pressure
 
-  let current-total-force sum [pforce] of patch-here
+  let current-total-force sum [pforce] of patch-here / 4
   ;;show current-total-force
 
 ;  ifelse current-total-force >= min-pressure 
@@ -111,10 +111,10 @@ to push
   let push-direction convert-heading-to-cardinal-index heading  
   
   ;; add force to current patch, in the direction of the push. Subtract force in the direction away from the push. 
-  set pforce replace-item push-direction pforce (item push-direction pforce + push-force)
+  set pforce replace-item push-direction pforce (item push-direction pforce + push-force / 2)
   
-;  set push-direction ( push-direction + 2 ) mod 4
-;  set pforce replace-item push-direction pforce (item push-direction pforce - push-force)
+  set push-direction ( push-direction + 2 ) mod 4
+  set pforce replace-item push-direction pforce (max list 0 (item push-direction pforce - push-force / 2))
 end
 
 to push-to-maintain-space      ;; TODO one quarter of the pushing force (kresist = 0.25 kpush) is vector-added into each adjacent occupied cell in the direction of that cell

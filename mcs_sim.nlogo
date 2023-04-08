@@ -196,8 +196,8 @@ SLIDER
 people-cap
 people-cap
 0
-3000
-2828.0
+10000
+8408.0
 1
 1
 NIL
@@ -212,7 +212,7 @@ inflow-rate
 inflow-rate
 0
 0.3
-0.03
+0.168
 0.003
 1
 NIL
@@ -313,7 +313,7 @@ avenue-width
 avenue-width
 2
 40
-10.0
+4.0
 2
 1
 NIL
@@ -354,7 +354,7 @@ crowd-density
 crowd-density
 1
 10
-8.0
+6.0
 1
 1
 NIL
