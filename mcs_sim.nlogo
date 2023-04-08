@@ -22,6 +22,7 @@ people-own [
   target-patch                              ;; patch that the agent wants to go next
   obstructed?                               ;; set to true if agent (i) has attempted to move to an adjacent cell, and (ii) was unable to do so because the cell was already occupied
   pressure-endured                          ;;
+  min-pressure                              ;; minimum threshold for pressure. any pressure below this will not harm an individual for any period
 ]
 
 deadpeople-own [
@@ -33,6 +34,7 @@ to setup
   set-default-shape people "circle"
   set-default-shape deadpeople "circle"
 
+  ask people [ set min-pressure 1]
   set done? false
 
   setup-corridors
@@ -75,6 +77,8 @@ to go
   ask patches [ set pforce pforce-incoming ]
 
   ; agents respond to pressure here.
+  ask people [ update-pressure ]
+  ask people [ respond-to-pressure ]
 
   ; agents attempt to move
   ask people [ attempt-move ]     ; dynamic field is incremented in attempt-move function
@@ -283,7 +287,7 @@ push-force
 push-force
 0
 1000
-609.0
+62.0
 1
 1
 NIL
