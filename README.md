@@ -31,7 +31,7 @@ Where:
 - $\xi_i$ is 0 for forbidden (non-pathable) cells, and 1 otherwise;
 - $\eta_i$ is 1 if a cell is unoccupied, and some adjustable value between 0 and 1 otherwise. 
 
-If an agent is unable to move to its desired cell, it will push (exert a force on) that cell. The pushing force is a constant, determined by biomechanical studies. 
+If an agent is unable to move to its desired cell (if the cell is occupied by a number of people as determined by the permissible crowd density slider), it will push (exert a force on) that cell. The pushing force is a constant, determined by biomechanical studies. 
 
 At the end of every tick, each agent will push to maintain its space. It will push outwards in each cardinal direction with 0.25 of its maximum pushing force.
 

@@ -24,7 +24,7 @@ to deadpeople-attempt-move
   face target-patch
   
   ; if the patch is unoccupied and pathable, move into it (but don't push, and don't update dynamic field) 
-  if (not any? [ people-here ] of target-patch and not any? [deadpeople-here] of target-patch ) or [ pathable ] of target-patch = 1 [
+  if count [ turtles-here ] of target-patch >= crowd-density or [pcolor] of target-patch != white [
     fd 1 
   ] 
 end
@@ -32,9 +32,7 @@ end
 to attempt-move  
   face target-patch    ; we face target patch first because this affects both our movement and pushing behavior 
   (ifelse 
-    ; OLD CODE DON'T USE - if target patch isn't vacant, try the patch to the left or right of itself instead (try to go around the person) 
-    any? [ turtles-here ] of target-patch or [pcolor] of target-patch = black [
-;     OLD CODE DON'T USE - ifelse random-float 1 < 0.2 [attempt-circumvent] [set obstructed? true]
+    count [ turtles-here ] of target-patch >= crowd-density or [pcolor] of target-patch != white [
       set obstructed? true
     ]
   
@@ -47,67 +45,48 @@ to attempt-move
   )
 end
 
-to attempt-circumvent
-  ; randomly turn left or right for first consideration (random is to avoid biasing agents towards either direction 
-  ifelse random-float 1 < 0.5 [lt 90] [rt 90]
-  
-  if any? [people-here] of patch-ahead 1 or any? [deadpeople-here] of patch-ahead 1 [
-    ; if the patch to the right is occupied, try the patch to the left 
-    rt 180 
-  ]
-  
-  ; after rotating (or not), check the patch again. If there's no one in there, move. 
-  ifelse any? [people-here] of patch-ahead 1 or any? [deadpeople-here] of patch-ahead 1 
-  [
-    update-dynamic-field
-    fd 1
-  ]
-  ; if still obstructed, fail the move. Reorient to target patch and prepare to shove the guy in front 
-  [
-    set obstructed? true 
-    face target-patch
-  ]
+;to attempt-circumvent
+;  ; randomly turn left or right for first consideration (random is to avoid biasing agents towards either direction 
+;  ifelse random-float 1 < 0.5 [lt 90] [rt 90]
+;  
+;  if any? [people-here] of patch-ahead 1 or any? [deadpeople-here] of patch-ahead 1 [
+;    ; if the patch to the right is occupied, try the patch to the left 
+;    rt 180 
+;  ]
+;  
+;  ; after rotating (or not), check the patch again. If there's no one in there, move. 
+;  ifelse any? [people-here] of patch-ahead 1 or any? [deadpeople-here] of patch-ahead 1 
+;  [
+;    update-dynamic-field
+;    fd 1
+;  ]
+;  ; if still obstructed, fail the move. Reorient to target patch and prepare to shove the guy in front 
+;  [
+;    set obstructed? true 
+;    face target-patch
+;  ]
+;
+;end
 
-end
-
-;;this method kills people if they have endured a lethal amount of pressure for a certain amount of time. 
-;;current-threshold calculates the current threshold of lethal force on them based on the amount of time that has passed
-;;death-threshold represents the cumulative force endured required to kill the person
-;;a person changes breed to dead people after dying
 to respond-to-pressure
   ;check if the agent has exceeded fatal pressure
   let x ticks
 
   ;nonlinear pressure over time model
-  let current-threshold (0025 + (1384581000 - 575.0025) / (1 + (x / 0.000001875485 ) ^ 0.7806964))
-  
-  let death-threshold ( x * current-threshold )
-  ;;show death-threshold
+  let current-threshold (375.0025 + (1384581000 - 575.0025) / (1 + (x / 0.000001875485 ) ^ 0.7806964))
 
-  ;;to calibrate this based on compatibility with the unit of force
-  set death-threshold death-threshold / 10
-  
+  let death-threshold ( x * current-threshold )
+
   if (pressure-endured >= death-threshold)[
     set color grey
     set breed deadpeople 
   ]
 end
+;every tick corrsponds to 1 second
 
-;;update pressure method to add to endured pressure every tick
-;; if the pressure on the person continues to be above a certain threshold, the person's cumulative pressure (endured-pressure) will increase by the sum of all 4 directional forces.
-to update-pressure
+; Crush Asphyxia 6227N for 15 seconds
 
-  let current-total-force sum [pforce] of patch-here
-  ;;show current-total-force
-
-;  ifelse current-total-force >= min-pressure 
-;  [ set pressure-endured 0]
-;  
-;  [set pressure-endured pressure-endured + current-total-force]
-  set pressure-endured pressure-endured + current-total-force
-  
-end
-
+; Crush Asphyxia 1112N - if sustained for 4-6 minutes
 
 ;implementation approach: keep a track of how many ticks have passed with the fore being sustained. If it exceeds the threshold, then kill the person. 
 to push       
