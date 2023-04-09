@@ -4,7 +4,7 @@ todo
 
 ## How the model works 
 ### Basics 
-- White patches are traversable.
+- White patches are traversable. Each patch represents a 0.5 x 0.5m floor space. 2 agents can fit on one tile, represnting the upper limit on crowd density of 8 people per square meter.
 - Black patches represent the walls of the corridor system, and obstacles within the corridors.
 - Blue patches represent entrances to the MCS. They will spawn people up till a cap of total number of people is reached. 
 - Live people are green circles. 

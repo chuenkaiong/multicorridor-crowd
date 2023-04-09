@@ -220,9 +220,9 @@ HORIZONTAL
 
 SLIDER
 26
-230
+208
 198
-263
+241
 follow-tendency
 follow-tendency
 0
@@ -234,10 +234,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-27
-281
-199
-314
+28
+253
+200
+286
 attraction-tendency
 attraction-tendency
 0
@@ -249,10 +249,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-28
-332
-200
-365
+29
+304
+201
+337
 dynamic-decay
 dynamic-decay
 0
@@ -264,10 +264,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-26
-377
-198
-410
+27
+349
+199
+382
 dynamic-increment
 dynamic-increment
 0.1
@@ -279,25 +279,25 @@ NIL
 HORIZONTAL
 
 SLIDER
-26
-425
-198
-458
+27
+397
+199
+430
 push-force
 push-force
 0
 1000
-609.0
+338.0
 1
 1
 NIL
 HORIZONTAL
 
 SWITCH
-29
-468
-145
-501
+30
+446
+146
+479
 obstacles
 obstacles
 1
@@ -306,14 +306,14 @@ obstacles
 
 SLIDER
 27
-513
+495
 199
-546
+528
 avenue-width
 avenue-width
 2
 40
-4.0
+8.0
 2
 1
 NIL
@@ -321,9 +321,9 @@ HORIZONTAL
 
 SLIDER
 27
-556
+538
 199
-589
+571
 corridor-width
 corridor-width
 2
@@ -335,10 +335,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-159
-469
-294
-502
+160
+447
+295
+480
 train-station
 train-station
 1
@@ -347,18 +347,69 @@ train-station
 
 SLIDER
 27
-609
+591
 199
-642
+624
 crowd-density
 crowd-density
 1
 10
-6.0
+2.0
 1
 1
 NIL
 HORIZONTAL
+
+SLIDER
+27
+634
+199
+667
+death-constant
+death-constant
+0
+2000
+1669.0
+1
+1
+NIL
+HORIZONTAL
+
+PLOT
+944
+32
+1453
+240
+number of people on the field
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot count turtles"
+
+PLOT
+948
+272
+1448
+441
+average pressure experienced by a person 
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot mean [mean pforce] of patches"
 
 @#$#@#$#@
 ## WHAT IS IT?

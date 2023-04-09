@@ -78,7 +78,7 @@ to respond-to-pressure
   ;arbitrarily slow down pressure response. added this if-condition to only kill people at every 13th tick, alternatively, we can slow down the model which may affect smoothness
 
   ;nonlinear pressure over time model
-  let current-threshold (132 + (1384581000 - 575.0025) / (1 + (x / 0.0000001875485 ) ^ 0.7806964))
+  let current-threshold (death-constant + (1384581000 - 575.0025) / (1 + (x / 0.0000001875485 ) ^ 0.7806964))
   
   let death-threshold ( x * current-threshold )
 
