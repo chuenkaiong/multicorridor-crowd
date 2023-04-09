@@ -51,6 +51,7 @@ end
 
 
 to go
+  if terminate-at-10-minutes and ticks = 600 [ stop ]  ; for testing
 
   ; spawn crowds at corridor entrances if the pop cap isn't reached
   if count people < people-cap [
@@ -369,7 +370,7 @@ death-constant
 death-constant
 0
 2000
-1855.0
+1726.0
 1
 1
 NIL
@@ -394,10 +395,10 @@ PENS
 "default" 1.0 0 -16777216 true "" "plot count turtles"
 
 PLOT
-948
-272
-1448
-441
+945
+270
+1453
+439
 maximum pressure experienced by a person 
 NIL
 NIL
@@ -419,7 +420,36 @@ CHOOSER
 attraction-setup
 attraction-setup
 "1, centrally located" "2, evenly spaced" "1 central and 4 on walls"
-2
+0
+
+PLOT
+947
+465
+1454
+615
+number of deaths
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot count deadpeople"
+
+SWITCH
+28
+447
+210
+480
+terminate-at-10-minutes
+terminate-at-10-minutes
+0
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?
