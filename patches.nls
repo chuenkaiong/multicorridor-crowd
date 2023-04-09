@@ -42,3 +42,7 @@ to diffuse-dynamic-fields
   ask patches [ set dynamic dynamic * ( 1 - dynamic-decay ) ]
   diffuse dynamic 0.5
 end
+
+to become-attraction
+  set is-attraction? true set pcolor blue + 3
+end

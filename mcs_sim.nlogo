@@ -101,10 +101,10 @@ to go
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-324
-10
-898
-585
+359
+12
+933
+587
 -1
 -1
 5.604
@@ -185,44 +185,44 @@ CHOOSER
 118
 corridor-system
 corridor-system
-3 5 7
+1 3 5 7
 0
 
 SLIDER
 26
 125
-198
+164
 158
 people-cap
 people-cap
 0
 10000
-8408.0
+8407.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-27
-164
-199
-197
+172
+125
+310
+158
 inflow-rate
 inflow-rate
 0
 0.3
-0.168
+0.225
 0.003
 1
 NIL
 HORIZONTAL
 
 SLIDER
-26
-208
-198
-241
+173
+168
+311
+201
 follow-tendency
 follow-tendency
 0
@@ -234,10 +234,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-28
-253
-200
-286
+25
+168
+164
+201
 attraction-tendency
 attraction-tendency
 0
@@ -249,10 +249,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-29
-304
-201
-337
+25
+213
+164
+246
 dynamic-decay
 dynamic-decay
 0
@@ -264,10 +264,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-27
-349
-199
-382
+175
+212
+314
+245
 dynamic-increment
 dynamic-increment
 0.1
@@ -279,10 +279,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-27
-397
-199
-430
+26
+398
+166
+431
 push-force
 push-force
 0
@@ -294,10 +294,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-30
-446
-146
-479
+26
+307
+122
+340
 obstacles
 obstacles
 1
@@ -305,10 +305,10 @@ obstacles
 -1000
 
 SLIDER
-27
-495
-199
-528
+25
+260
+165
+293
 avenue-width
 avenue-width
 2
@@ -320,10 +320,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-27
-538
-199
-571
+176
+260
+315
+293
 corridor-width
 corridor-width
 2
@@ -335,10 +335,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-160
-447
-295
-480
+131
+307
+236
+340
 train-station
 train-station
 1
@@ -346,10 +346,10 @@ train-station
 -1000
 
 SLIDER
-27
-591
-199
-624
+26
+351
+165
+384
 crowd-density
 crowd-density
 1
@@ -361,15 +361,15 @@ NIL
 HORIZONTAL
 
 SLIDER
-27
-634
-199
-667
+179
+350
+318
+383
 death-constant
 death-constant
 0
 2000
-1669.0
+1855.0
 1
 1
 NIL
@@ -398,7 +398,7 @@ PLOT
 272
 1448
 441
-average pressure experienced by a person 
+maximum pressure experienced by a person 
 NIL
 NIL
 0.0
@@ -409,7 +409,17 @@ true
 false
 "" ""
 PENS
-"default" 1.0 0 -16777216 true "" "plot mean [mean pforce] of patches"
+"default" 1.0 0 -16777216 true "" "plot max [mean pforce] of patches"
+
+CHOOSER
+171
+73
+346
+118
+attraction-setup
+attraction-setup
+"1, centrally located" "2, evenly spaced" "1 central and 4 on walls"
+2
 
 @#$#@#$#@
 ## WHAT IS IT?

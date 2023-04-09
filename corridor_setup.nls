@@ -37,15 +37,13 @@ to setup-1
   if obstacles [create-obstacles]
   if train-station [create-trainstation]
 
-  ask patch 0 0 [ set is-attraction? true set pcolor blue + 3]
-
+  setup-attractions 
   set-static-potentials
 
 end
 
 
 to setup-corridor [corr-point top]
-
   set corr-point 0 - corr-point
   let edge 0
   ifelse (top) [set edge max-pycor][set edge min-pycor] ;used for spawn points
@@ -57,7 +55,25 @@ to setup-corridor [corr-point top]
 
   ;spawn points
    ask patches with [abs (pxcor + corr-point) <= corridor-width / 2 and pycor = edge ] [set pcolor blue]
+end
 
+to setup-attractions 
+  (ifelse 
+    attraction-setup = "1, centrally located" [
+      ask patch 0 0 [ become-attraction ]
+    ]
+    attraction-setup = "2, evenly spaced" [
+      ask patch -25 0 [ become-attraction ]
+      ask patch 25 0 [ become-attraction ]
+    ]
+    attraction-setup = "1 central and 4 on walls" [
+      ;; this needs work. represents TV screens mirroring the main attraction, diverting attention and hopefully preventing crowds from reaching dangerous densities. 
+      ;; these are currently treated as primary attractions, meaning that they have the same weight as the main attraction. In reality, people should ignore these if they can see the main attraction. 
+      ;; maybe some kind of vision radius is needed. 
+      ask patch 0 0 [ become-attraction ]
+      foreach [-30 -10 10 30] [x -> ask patch x (corridor-width - 3) [become-attraction]]
+    ]
+  )
 end
 
 to create-obstacles
