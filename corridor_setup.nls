@@ -117,9 +117,18 @@ to set-static-potentials
     ; TODO - define potentials for the attraction squares themselves
     ifelse pcolor = white
     [
-      let closest-attraction one-of patches with [ is-attraction? = true ] with-min [distance myself]
-      set static max-pycor - (distance closest-attraction)
       set pathable 1
+      ;; if a patch is on a feeder corridor, agnets will prefer to follow the corridor to the main street. 
+      ;; once on the main street, they will follow the straight-line path towards the attraction. 
+      ifelse abs pycor > avenue-width / 2 [
+        set static max-pycor - abs pycor 
+      ]
+      [
+        let closest-attraction one-of patches with [ is-attraction? = true ] with-min [distance myself]
+        set static max-pycor - (distance closest-attraction) + max-pycor  ;; max-pycor is added so that the score of the main street is always greater than the score of the adjacent corridor, 
+                                                                          ;; without affecting pathing within the corridor itself. 
+      ]
+      
     ]
     [
       set pathable 0
