@@ -11,6 +11,11 @@ to setup-1
       setup-corridor 0 true
     ]
     
+    corridor-system = 2 [
+      setup-corridor 0 true
+      setup-corridor 0 false
+    ]
+    
     corridor-system = 3 [
       setup-corridor 3 true
       setup-corridor -20 false
