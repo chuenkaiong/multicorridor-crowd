@@ -329,7 +329,7 @@ corridor-width
 corridor-width
 2
 18
-6.0
+8.0
 2
 1
 NIL
@@ -377,10 +377,10 @@ NIL
 HORIZONTAL
 
 PLOT
-944
-32
-1453
-240
+955
+15
+1464
+135
 number of people on the field
 NIL
 NIL
@@ -395,10 +395,10 @@ PENS
 "default" 1.0 0 -16777216 true "" "plot count turtles"
 
 PLOT
-945
-270
-1453
-439
+956
+142
+1464
+262
 maximum pressure experienced by a person 
 NIL
 NIL
@@ -423,10 +423,10 @@ attraction-setup
 0
 
 PLOT
-947
-465
-1454
-615
+957
+284
+1464
+404
 number of deaths
 NIL
 NIL
@@ -450,6 +450,28 @@ terminate-at-10-minutes
 0
 1
 -1000
+
+MONITOR
+961
+429
+1117
+474
+number of people on the field
+count turtles
+0
+1
+11
+
+MONITOR
+1131
+429
+1188
+474
+dead
+count deadpeople
+0
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
