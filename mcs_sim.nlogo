@@ -54,7 +54,7 @@ to go
   if terminate-at-10-minutes and ticks = 600 [ stop ]  ; for testing
 
   ; spawn crowds at corridor entrances if the pop cap isn't reached
-  if count people < people-cap [
+  if count turtles < people-cap [
     ask patches with [ pcolor = blue ] [ spawn-people ]
   ]
 
@@ -180,35 +180,35 @@ NIL
 0
 
 CHOOSER
-25
-73
-163
-118
+14
+86
+152
+131
 corridor-system
 corridor-system
-1 3 5 7
+1 2 3 5 7
 0
 
 SLIDER
-26
-125
-164
-158
+15
+138
+153
+171
 people-cap
 people-cap
 0
 10000
-8407.0
+3577.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-172
-125
-310
-158
+161
+138
+299
+171
 inflow-rate
 inflow-rate
 0
@@ -220,10 +220,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-173
-168
-311
-201
+162
+181
+300
+214
 follow-tendency
 follow-tendency
 0
@@ -235,10 +235,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-25
-168
-164
-201
+14
+181
+153
+214
 attraction-tendency
 attraction-tendency
 0
@@ -250,10 +250,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-25
-213
-164
-246
+14
+226
+153
+259
 dynamic-decay
 dynamic-decay
 0
@@ -265,10 +265,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-175
-212
-314
-245
+164
+225
+303
+258
 dynamic-increment
 dynamic-increment
 0.1
@@ -280,25 +280,25 @@ NIL
 HORIZONTAL
 
 SLIDER
-26
-398
-166
-431
+15
+411
+155
+444
 push-force
 push-force
 0
 1000
-338.0
+232.0
 1
 1
 NIL
 HORIZONTAL
 
 SWITCH
-26
-307
-122
-340
+15
+320
+111
+353
 obstacles
 obstacles
 1
@@ -306,10 +306,10 @@ obstacles
 -1000
 
 SLIDER
-25
-260
-165
-293
+14
+273
+154
+306
 avenue-width
 avenue-width
 2
@@ -321,10 +321,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-176
-260
-315
-293
+165
+273
+304
+306
 corridor-width
 corridor-width
 2
@@ -336,10 +336,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-131
-307
-236
-340
+120
+320
+225
+353
 train-station
 train-station
 1
@@ -347,10 +347,10 @@ train-station
 -1000
 
 SLIDER
-26
-351
-165
-384
+15
+364
+154
+397
 crowd-density
 crowd-density
 1
@@ -362,10 +362,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-179
-350
-318
-383
+168
+363
+307
+396
 death-constant
 death-constant
 0
@@ -413,10 +413,10 @@ PENS
 "default" 1.0 0 -16777216 true "" "plot max [mean pforce] of patches"
 
 CHOOSER
-171
-73
-346
-118
+160
+86
+335
+131
 attraction-setup
 attraction-setup
 "1, centrally located" "2, evenly spaced" "1 central and 4 on walls"
@@ -441,10 +441,10 @@ PENS
 "default" 1.0 0 -16777216 true "" "plot count deadpeople"
 
 SWITCH
-28
-447
-210
-480
+17
+460
+199
+493
 terminate-at-10-minutes
 terminate-at-10-minutes
 0
