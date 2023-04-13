@@ -71,12 +71,30 @@ to setup-attractions
       ask patch -25 0 [ become-attraction ]
       ask patch 25 0 [ become-attraction ]
     ]
-    attraction-setup = "1 central and 4 on walls" [
-      ;; this needs work. represents TV screens mirroring the main attraction, diverting attention and hopefully preventing crowds from reaching dangerous densities. 
-      ;; these are currently treated as primary attractions, meaning that they have the same weight as the main attraction. In reality, people should ignore these if they can see the main attraction. 
-      ;; maybe some kind of vision radius is needed. 
-      ask patch 0 0 [ become-attraction ]
-      foreach [-30 -10 10 30] [x -> ask patch x (corridor-width - 3) [become-attraction]]
+;    attraction-setup = "1 central and 4 on walls" [
+;      ;; this needs work. represents TV screens mirroring the main attraction, diverting attention and hopefully preventing crowds from reaching dangerous densities. 
+;      ;; these are currently treated as primary attractions, meaning that they have the same weight as the main attraction. In reality, people should ignore these if they can see the main attraction. 
+;      ;; maybe some kind of vision radius is needed. 
+;      ask patch 0 0 [ become-attraction ]
+;      foreach [-30 -10 10 30] [x -> ask patch x (corridor-width - 3) [become-attraction]]
+;    ]
+  )
+end
+
+to setup-safety-measures
+  (ifelse 
+    safety-measures = "barrier around attractions" [
+      ask patches with [ is-attraction? = true ] [ ask neighbors [set pcolor black set pathable 0] ]
+    ]
+    safety-measures = "barriers in corridors" [
+      ask patches with [abs pxcor = corridor-width / 2 + 1 and abs pycor > 1 and abs pycor <= avenue-width / 2] [set pcolor black set pathable 0]
+      ask patches with [abs pycor = avenue-width / 2 + 1 and abs pxcor > 1 and abs pxcor <= corridor-width / 2] [set pcolor black set pathable 0]
+    ]
+    safety-measures = "side-entry barriers" [
+      
+    ]
+    safety-measures = "block entry to one corridor" [  ; for now, works with corridor system 1. If used with other corridor systems, disables spawning for all north facing corridors.
+      ask patches with [ pcolor  = blue and pycor = max-pycor ] [ set pcolor black set pathable 0 ]
     ]
   )
 end

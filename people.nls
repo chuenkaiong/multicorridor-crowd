@@ -10,7 +10,7 @@ to select-target-patch
   ]
   ;; else, select a target patch and move accordingly 
   [
-    set target-patch max-one-of neighbors4 [ desirability ]
+    set target-patch max-one-of (neighbors4 with [ pathable = 1 ] ) [ desirability ]
   ]
   
   ;; failsafe

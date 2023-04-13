@@ -2,7 +2,7 @@ __includes [ "people.nls" "corridor_setup.nls" "patches.nls" "forces.nls"]  ; im
 
 globals [
   max-push-force                            ;; the max pushing force each person is able to generate
-  done?                                     ;; becomes true when [SOME CONDITION]
+  max-pressures-after-500-ticks             ;; average maximum pressure experienced by agents over the last 100 ticks
 ]
 
 breed [people person]                       ;; live people. Set color between green and red to indicate forces experienced
@@ -35,9 +35,11 @@ to setup
   set-default-shape deadpeople "circle"
 
   ask people [ set min-pressure 1]
-  set done? false
 
   setup-corridors
+  setup-safety-measures
+
+  set max-pressures-after-500-ticks [ 0 ]
 
   reset-ticks
 end
@@ -51,7 +53,7 @@ end
 
 
 to go
-  if terminate-at-10-minutes and ticks = 600 [ stop ]  ; for testing
+  if terminate-at-10-minutes and ticks = 600 [ stop ]
 
   ; spawn crowds at corridor entrances if the pop cap isn't reached
   if count turtles < people-cap [
@@ -96,6 +98,12 @@ to go
 
   ; diffuse and decay dynamic field
   diffuse-dynamic-fields
+
+  ; update moving average for 500 ticks
+  if ticks = 501 [ set max-pressures-after-500-ticks [] ]
+  if ticks > 500 [
+    set max-pressures-after-500-ticks lput (max [ mean pforce ] of patches ) max-pressures-after-500-ticks
+  ]
 
   tick
 ;  update-plots
@@ -228,7 +236,7 @@ follow-tendency
 follow-tendency
 0
 3
-0.1
+0.5
 0.1
 1
 NIL
@@ -419,7 +427,7 @@ CHOOSER
 131
 attraction-setup
 attraction-setup
-"1, centrally located" "2, evenly spaced" "1 central and 4 on walls"
+"1, centrally located" "2, evenly spaced"
 0
 
 PLOT
@@ -472,6 +480,16 @@ count deadpeople
 0
 1
 11
+
+CHOOSER
+15
+507
+205
+552
+safety-measures
+safety-measures
+"none" "barrier around attractions" "barriers in corridors" "side-entry barriers" "block entry to one corridor"
+3
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -819,6 +837,190 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="dimensions" repetitions="20" sequentialRunOrder="false" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <metric>count deadpeople</metric>
+    <metric>mean max-pressures-after-500-ticks</metric>
+    <enumeratedValueSet variable="attraction-tendency">
+      <value value="0.7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="safety-measures">
+      <value value="&quot;none&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attraction-setup">
+      <value value="&quot;1, centrally located&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="inflow-rate">
+      <value value="0.225"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dynamic-decay">
+      <value value="0.11"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dynamic-increment">
+      <value value="0.8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="crowd-density">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="death-constant">
+      <value value="1726"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="follow-tendency">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="corridor-system">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="terminate-at-10-minutes">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="people-cap">
+      <value value="3577"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="avenue-width">
+      <value value="8"/>
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="push-force">
+      <value value="232"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="corridor-width">
+      <value value="8"/>
+      <value value="4"/>
+      <value value="12"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-station">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="obstacles">
+      <value value="false"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="layouts" repetitions="20" sequentialRunOrder="false" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <metric>count deadpeople</metric>
+    <metric>mean max-pressures-after-500-ticks</metric>
+    <enumeratedValueSet variable="attraction-tendency">
+      <value value="0.7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="safety-measures">
+      <value value="&quot;none&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attraction-setup">
+      <value value="&quot;1, centrally located&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="inflow-rate">
+      <value value="0.225"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dynamic-decay">
+      <value value="0.11"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dynamic-increment">
+      <value value="0.8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="crowd-density">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="death-constant">
+      <value value="1726"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="follow-tendency">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="corridor-system">
+      <value value="2"/>
+      <value value="3"/>
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="terminate-at-10-minutes">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="people-cap">
+      <value value="3577"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="avenue-width">
+      <value value="8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="push-force">
+      <value value="232"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="corridor-width">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-station">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="obstacles">
+      <value value="false"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="safety measures" repetitions="20" sequentialRunOrder="false" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <metric>count deadpeople</metric>
+    <metric>mean max-pressures-after-500-ticks</metric>
+    <enumeratedValueSet variable="attraction-tendency">
+      <value value="0.7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="safety-measures">
+      <value value="&quot;barrier around attractions&quot;"/>
+      <value value="&quot;barriers in corridors&quot;"/>
+      <value value="&quot;side-entry barriers&quot;"/>
+      <value value="&quot;block entry to one corridor&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attraction-setup">
+      <value value="&quot;1, centrally located&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="inflow-rate">
+      <value value="0.225"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dynamic-decay">
+      <value value="0.11"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dynamic-increment">
+      <value value="0.8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="crowd-density">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="death-constant">
+      <value value="1726"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="follow-tendency">
+      <value value="0.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="corridor-system">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="terminate-at-10-minutes">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="people-cap">
+      <value value="3577"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="avenue-width">
+      <value value="8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="train-station">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="push-force">
+      <value value="232"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="corridor-width">
+      <value value="8"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="obstacles">
+      <value value="false"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default

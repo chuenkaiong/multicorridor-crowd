@@ -34,7 +34,7 @@ to propagate-towards-direction [x]
 end
 
 to update-dynamic-field
-  set dynamic dynamic * (1 - dynamic-decay) 
+  set dynamic dynamic + dynamic-increment 
 end
 
 
