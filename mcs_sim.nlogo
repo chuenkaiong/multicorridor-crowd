@@ -195,7 +195,7 @@ CHOOSER
 corridor-system
 corridor-system
 1 2 3 5 7
-0
+1
 
 SLIDER
 15
@@ -206,7 +206,7 @@ people-cap
 people-cap
 0
 10000
-3577.0
+6748.0
 1
 1
 NIL
@@ -337,7 +337,7 @@ corridor-width
 corridor-width
 2
 18
-8.0
+4.0
 2
 1
 NIL
@@ -488,8 +488,8 @@ CHOOSER
 552
 safety-measures
 safety-measures
-"none" "barrier around attractions" "barriers in corridors" "side-entry barriers" "block entry to one corridor"
-3
+"none" "barrier around attractions" "barriers in corridors" "block entry to one corridor"
+0
 
 @#$#@#$#@
 ## WHAT IS IT?
